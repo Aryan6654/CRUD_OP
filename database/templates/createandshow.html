@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="card cr">
+        <div class="content">
+            <!-- <h2>2</h2> -->
+            <h3>Create Employee Data</h3>
+                <form class="frm" method="POST">
+                    {% csrf_token %}
+                    {{form.as_p}}
+                    <a type="submit" class="sub">Submit</a>
+                </form>
+        </div>
+</div>
+<div class="card show">
+    <div class="content">
+        <h4>Show Employee Information</h4>
+        {% if stu %}
+        <table class="table table-hover">
+            <thead>
+                <tr class="hd">
+                    <th class="id" scope="col">ID</th>
+                    <th class="name" scope="col">Name</th>
+                    <th class="email" scope="col">Email</th>
+                    <th class="address" scope="col">Address</th>
+                    <th class="action" scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for st in stu %}
+                <tr>
+                    <th scope="row">{{st.id}}</th>
+                    <td>{{st.name}}</td>
+                    <td>{{st.email}}</td>
+                    <td>{{st.address}}</td>
+                    <td class="eddl">
+                        <a href="{% url 'updatedata' st.id %}" style="margin-right: 10px;">Edit</a>
+                        <form action="{% url 'deletedata' st.id %}" method="post" class="d-inline">
+                            {% csrf_token %}
+                            <a type="submit">Delete</a>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        {% else %}
+        <h2 class="text-center alert alert-warning">No Records</h2>
+        {% endif %}
+    </div>
+</div>
+</div>
+{% endblock body %}
